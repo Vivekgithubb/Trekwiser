@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Fascinate&family=Figtree:ital,wght@0,300..900;1,300..900&family=Intel+One+Mono:ital,wght@0,300..700;1,300..700&family=Kode+Mono:wght@400..700&family=Marcellus&family=Oxygen:wght@300;400;700&family=Pixelify+Sans:wght@400..700&family=Skranji:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Koulen&display=swap');
+
+@import "tailwindcss";
+@tailwind utilities;
+
+@theme {
+  --font-figtree: "Figtree", sans-serif;
+  --font-intel: "Intel One Mono", monospace;
+  --font-kodemono: "Kode Mono", monospace;
+  --font-marcellus: "Marcellus", serif;
+  --font-oxygen: "Oxygen", sans-serif;
+  --font-pixelify: "Pixelify Sans", cursive;
+  --font-skranji: "Skranji", cursive;
+  --font-fascinate: "Fascinate";
+  --font-logo:"Koulen";
+  --font-title:"Aboreto";
+  --color-primary:#009DFF;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  
+}
