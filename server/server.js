@@ -12,6 +12,7 @@ app.use(
     credentials: true, // ✅ Allow cookies
   })
 );
+
 mongoose.connect(process.env.DATABASE)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
@@ -20,3 +21,8 @@ mongoose.connect(process.env.DATABASE)
 app.listen(3000 , ()=>{
   console.log("backend is running")
 })
+
+
+app.use("/api/users", userRoutes);
+app.use("/api/treks", trekRoutes);
+app.use("/api/community", communityRoutes)
