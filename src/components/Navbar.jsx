@@ -34,7 +34,13 @@ export default function Navbar() {
       label: "Profile",
       bgColor: "#4B5563",
       textColor: "#fff",
-      links: [{ label: "Email", ariaLabel: "Email us", to: "/profile" }],
+      links: [
+        {
+          label: "Profile",
+          ariaLabel: "View user profile",
+          to: "/profile/:id",
+        },
+      ],
     },
   ];
   return (
