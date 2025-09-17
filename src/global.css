@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Fascinate&family=Figtree:ital,wght@0,300..900;1,300..900&family=Intel+One+Mono:ital,wght@0,300..700;1,300..700&family=Kode+Mono:wght@400..700&family=Marcellus&family=Oxygen:wght@300;400;700&family=Pixelify+Sans:wght@400..700&family=Skranji:wght@400;700&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Aboreto&family=Koulen&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Aboreto&family=Koulen&display=swap");
 
 @import "tailwindcss";
 
@@ -17,16 +17,17 @@
   --font-pixelify: "Pixelify Sans", cursive;
   --font-skranji: "Skranji", cursive;
   --font-fascinate: "Fascinate";
-  --font-logo:"Koulen";
-  --font-title:"Aboreto";
-  --color-primary:#009DFF;
+  --font-logo: "Koulen";
+  --font-title: "Aboreto";
+  --color-primary: #009dff;
 }
 
 html,
 body {
   margin: 0;
   padding: 0;
-
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 @theme inline {
@@ -143,4 +144,15 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* global.css or swiper-overrides.css */
+.swiper-button-next,
+.swiper-button-prev {
+  @apply w-2 h-2 rounded-full flex items-center justify-center;
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  @apply text-white text-xs; /* arrow size */
 }
