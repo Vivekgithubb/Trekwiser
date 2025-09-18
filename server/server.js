@@ -2,29 +2,41 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-dotenv.config({ path: "../config.env" });
+
+// Import your route files
 import userRoutes from "./routes/userRoutes.js";
 import trekRoutes from "./routes/trekRoutes.js";
 import communityRoutes from "./routes/communityRoutes.js";
 
+dotenv.config({
+  path: '../config.env'
+});
+
+console.log("My secret is:", process.env.ACCESS_TOKEN_SECRET);
+
 const app = express();
 
-app.use(
-  cors({
-    origin: "http://localhost:5173", // ✅ Your frontend's URL
-    credentials: true, // ✅ Allow cookies
-  })
-);
+// Core Middleware
+app.use(cors({
+  origin: "http://localhost:5173", // ✅ Your frontend's URL
+  credentials: true, // ✅ Allow cookies
+}));
 
-mongoose
-  .connect(process.env.DATABASE)
+// Middleware to parse JSON and URL-encoded data
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Database Connection
+mongoose.connect(process.env.DATABASE)
   .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-app.listen(3000, () => {
-  console.log("backend is running");
-});
-
+// API Routes
 app.use("/api/users", userRoutes);
 app.use("/api/treks", trekRoutes);
 app.use("/api/community", communityRoutes);
+
+// Start the server
+app.listen(3000, () => {
+  console.log("Backend is running on port 3000");
+});

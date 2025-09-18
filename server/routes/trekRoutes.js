@@ -1,5 +1,5 @@
 import express from "express";
-import { getAllTreks, getTrekById } from "../controllers/trekController.js";
+import { getAllTreks, getTrekById } from "../controllers/trekControllers.js";
 
 const router = express.Router();
 

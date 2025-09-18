@@ -1,4 +1,4 @@
-import { CommunityPost } from "../models/CommunityPost.js";
+import { CommunityPost } from "../models/Community.js";
 
 // ✅ Create post
 export const createPost = async (req, res) => {
@@ -32,8 +32,10 @@ export const getAllPosts = async (req, res) => {
 // ✅ Get logged-in user's posts
 export const getUserPosts = async (req, res) => {
   try {
-    const posts = await CommunityPost.find({ user: req.user.id })
-      .populate("trek", "name");
+    const posts = await CommunityPost.find({ user: req.user.id }).populate(
+      "trek",
+      "name"
+    );
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });
