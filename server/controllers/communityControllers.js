@@ -1,4 +1,4 @@
-import { CommunityPost } from "../models/CommunityPost.js";
+import { CommunityPost } from "../models/Community.js";
 
 // ✅ Create post
 export const createPost = async (req, res) => {

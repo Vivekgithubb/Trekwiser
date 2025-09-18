@@ -9,7 +9,7 @@ const trekSchema = new Schema({
   images: [{ type: String }],
   highlights: [{ 
     type: String, 
-    enum: ["Best Scenery", "Best Viewpoint", "Waterfalls", "Wildlife", "Sunrise Spot"] 
+    enum: ["Best Scenery", "Best Viewpoint", "shortest", "beginner friendly", "challenging"] 
   }],
   availability: { type: Boolean, default: true }
 

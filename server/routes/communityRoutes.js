@@ -1,5 +1,5 @@
 import express from "express";
-import { createPost, getAllPosts, getUserPosts } from "../controllers/communityController.js";
+import { createPost, getAllPosts, getUserPosts } from "../controllers/communityControllers.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
