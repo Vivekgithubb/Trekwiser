@@ -7,6 +7,7 @@ import AppLayout from "./AppLayout";
 import TrekIndiviual from "./pages/TrekIndiviual";
 import GalleryPage from "./pages/Gallery";
 import Login from "./pages/Login";
+import AddPost from "./pages/AddPost";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<AppLayout />}>
             <Route path="/" element={<Home />} />
             <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/profile/addpost/:id" element={<AddPost />} />
             <Route path="/treks" element={<TreksMain />} />
             {/* <Route path="/treks/:id" element={<TrekIndiviual />} /> */}
             <Route path="/treks/testVal" element={<TrekIndiviual />} />

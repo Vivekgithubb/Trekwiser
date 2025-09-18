@@ -3,9 +3,9 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config({ path: "../config.env" });
-import userRoutes from "./routes/userRoutes";
-import trekRoutes from "./routes/trekRoutes";
-import communityRoutes from "./routes/communityRoutes";
+import userRoutes from "./routes/userRoutes.js";
+import trekRoutes from "./routes/trekRoutes.js";
+import communityRoutes from "./routes/communityRoutes.js";
 
 const app = express();
 
