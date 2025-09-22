@@ -1,9 +1,21 @@
 import SearchBar from "@/components/SearchBar";
 import TreksCard from "@/components/TreksCard";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-export default function treksMain() {
-  const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
-  const difficulty = ["Easy", "Medium", "Hard"];
+export default function TreksMain() {
+  const [Treks, setTreks] = useState([]);
+  useEffect(() => {
+    const fetchTreks = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:3000/api/treks");
+        setTreks(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchTreks();
+  }, []);
   return (
     <div>
       <div className=" mt-16">
@@ -18,12 +30,13 @@ export default function treksMain() {
           waiting for you.
         </h3>
         <div className="flex flex-col w-full justify-center items-center mt-10">
-          {list.map((el, i) => (
+          {Treks.map((trek, i) => (
             <TreksCard
-              key={el}
-              image={el}
-              id={el}
-              difficulty={difficulty[i % difficulty.length]}
+              key={trek._id}
+              image={trek}
+              id={trek}
+              // difficulty={difficulty[i % difficulty.length]}
+              trek={trek}
             />
           ))}
         </div>

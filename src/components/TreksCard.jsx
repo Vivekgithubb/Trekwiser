@@ -1,16 +1,17 @@
 // import img1 from "/home1.jpg";
 
+import { Trello } from "lucide-react";
 import { Link } from "react-router";
 
-export default function TreksCard({ difficulty, image, id }) {
+export default function TreksCard({ image, trek }) {
   const difficultyColors = {
     Easy: "bg-green-600/20",
-    Medium: "bg-blue-600/20",
+    Moderate: "bg-blue-600/20",
     Hard: "bg-red-600/20",
   };
   const difficultyText = {
     Easy: "text-green-600",
-    Medium: "text-blue-600",
+    Moderate: "text-blue-600",
     Hard: "text-red-600",
   };
   return (
@@ -29,19 +30,21 @@ export default function TreksCard({ difficulty, image, id }) {
         <div className="flex justify-between items-center relative">
           <div className="flex flex-col items-start">
             <h2 className="font-bold text-lg font-logo text-gray-900">
-              KUDREMUKHA
+              {trek.name}
             </h2>
-            <p className="text-[9px] font-semibold">Location: Kudremukha</p>
+            <p className="text-[9px] font-semibold">
+              Location: {trek.location}
+            </p>
           </div>
 
           <span
             className={`relative text-[8px] flex flex-row justify-center items-center ${
-              difficultyColors[difficulty]
+              difficultyColors[`${trek.difficulty}`]
             } font-figtree font-semibold bottom-1 ${
-              difficultyText[difficulty] || "text-gray-500"
+              difficultyText[`${trek.difficulty}`] || "text-gray-500"
             } rounded-2xl h-[15px] px-3 text-white1 `}
           >
-            {difficulty}
+            {trek.difficulty}
           </span>
         </div>
 
@@ -55,7 +58,7 @@ export default function TreksCard({ difficulty, image, id }) {
         {/* Button */}
         <Link
           //   to={`treks/${id}`}
-          to="/treks/testVal"
+          to={`/treks/${trek._id}`}
           className="mt-3 flex flex-row justify-center items-center h-[20px] bg-blue-500 hover:bg-blue-600 text-white text-xs font-medium rounded-full py-2"
         >
           Get More Info.

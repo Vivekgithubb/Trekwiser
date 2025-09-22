@@ -1,35 +1,28 @@
 import GradualBlur from "@/components/GradualBlur";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function GalleryPage() {
   // Example trek images (from public folder)
-  const trekImages = [
-    "/home1.jpg",
-    "/home1.jpg",
-    "/home2.jpg",
-    "/home2.jpg",
-    "/home3.jpg",
-    "/home3.jpg",
-    "/home4.jpg",
-    "/home4.jpg",
-    "/home5.jpg",
-    "/home5.jpg",
-    "/home6.jpg",
-    "/home6.jpg",
-    "/home7.jpg",
-    "/home7.jpg",
-    "/home8.jpg",
-    "/home8.jpg",
-    "/home9.jpg",
-    "/home9.jpg",
-    "/home10.jpg",
-    "/home10.jpg",
-  ];
 
+  const [Treks, setTreks] = useState([]);
+  useEffect(() => {
+    const fetchTreks = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:3000/api/treks/gallery");
+        setTreks(res.data.data.images);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchTreks();
+  }, []);
   return (
     <div className="h-screen bg-white mt-16 ">
       <h1 className="text-3xl font-bold text-center mb-3 font-logo">
         Trek Gallery
       </h1>
+
       <section
         style={{
           position: "relative",
@@ -57,7 +50,7 @@ export default function GalleryPage() {
           auto-rows-[150px] 
         "
           >
-            {trekImages.map((img, index) => (
+            {Treks.map((img, index) => (
               <div
                 key={index}
                 className={`

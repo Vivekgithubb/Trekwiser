@@ -1,5 +1,11 @@
 import express from "express";
-import { registerUser, loginUser, getProfile, saveTrek } from "../controllers/userController.js";
+import {
+  registerUser,
+  loginUser,
+  getProfile,
+  saveTrek,
+  getUsers,
+} from "../controllers/userController.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
@@ -9,6 +15,7 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // ✅ Protected
+router.get("/", getUsers);
 router.get("/profile", authMiddleware, getProfile);
 router.post("/save-trek/:trekId", authMiddleware, saveTrek);
 

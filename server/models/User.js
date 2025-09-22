@@ -1,23 +1,53 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { string } from "mathjs";
 
 //model structure
-const userSchema = new Schema({
-  username: { type: String, required: true, unique: true, lowercase: true, trim: true, index: true },
+const userSchema = new Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      index: true,
+    },
 
-  email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  
-  coverImg: { type: String },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
 
-  savedTreks: [{ type: Schema.Types.ObjectId, ref: "Trek" }],   // Only bookmarking feature
+    coverImg: { type: String },
 
-  password: { type: String, required: [true, "Password is required"] },
+    savedTreks: [{ type: Schema.Types.ObjectId, ref: "Trek" }], // Only bookmarking feature
 
-  refreshToken: { type: String },
-
-}, { timestamps: true });
-
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: 8,
+      select: false,
+    },
+    passwordConf: {
+      type: string,
+      required: [true, "Needs to have a password"],
+      validate: {
+        validator: function (el) {
+          return el === this.password;
+        },
+        message: "Passwords need to match",
+      },
+    },
+    passwordChangedAt: Date,
+    refreshToken: { type: String },
+  },
+  { timestamps: true }
+);
 
 // ✅ Password hashing middleware
 userSchema.pre("save", async function (next) {
@@ -38,19 +68,23 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 };
 
 userSchema.methods.generateAccessToken = function () {
-  return jwt.sign({
-    _id: this._id,
-    email: this.email,
-    username: this.username,
-    fullname: this.fullname
-  }, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-  });
+  return jwt.sign(
+    {
+      _id: this._id,
+      email: this.email,
+      username: this.username,
+      fullname: this.fullname,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
+    }
+  );
 };
 
 userSchema.methods.generateRefreshToken = function () {
   return jwt.sign({ _id: this._id }, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
   });
 };
 

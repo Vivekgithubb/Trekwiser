@@ -9,9 +9,9 @@ export default function Button({ text, to, arrow, back, difficulty }) {
     green: "bg-green-600/80",
   };
   const difficult = {
-    easy: " bg-green-100 text-green-600",
-    medium: " bg-blue-100 text-blue-600",
-    difficult: " bg-red-100 text-red-600",
+    Easy: " bg-green-100 text-green-600",
+    Moderate: " bg-blue-100 text-blue-600",
+    Difficult: " bg-red-100 text-red-600",
   };
   if (difficulty) {
     return (

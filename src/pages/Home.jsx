@@ -5,6 +5,8 @@ import RollingGallery from "../components/RollingGallery";
 // import CaraselCategory from "@/components/CaraselCategory";
 
 import CaraselPopular from "@/components/CaraselPopular";
+import { useEffect, useState } from "react";
+import axios from "axios";
 export default function Home() {
   const demoItems = [
     {
@@ -28,6 +30,19 @@ export default function Home() {
       image: "/home1.jpg",
     },
   ];
+  const [popularTreks, setPopularTreks] = useState([]);
+  useEffect(() => {
+    const fetchTreks = async () => {
+      try {
+        const res = await axios.get("http://127.0.0.1:3000/api/treks/popular");
+        setPopularTreks(res.data.data.treks);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchTreks();
+  }, []);
+  // console.log(popularTreks);
   return (
     <div>
       <div className=" w-full h-full ">
@@ -59,7 +74,7 @@ export default function Home() {
             <div className="text-white font-logo mt-19 ml-3 mr-3  h-full">
               <h1 className="mb-2">Popular Treks</h1>
               <div className=" h-full ">
-                <CaraselPopular />
+                <CaraselPopular items={popularTreks} />
               </div>
             </div>
             <div className="flex flex-col bg-white shadow-blue-300 shadow-md/30">

@@ -1,10 +1,17 @@
 import express from "express";
-import { getAllTreks, getTrekById } from "../controllers/trekControllers.js";
+import {
+  getAllTreks,
+  getGallery,
+  getPopularTreks,
+  getTrekById,
+} from "../controllers/trekControllers.js";
 
 const router = express.Router();
 
 // ✅ Public
-router.get("/", getAllTreks);          // list all treks
-router.get("/:id", getTrekById);       // trek details
+router.get("/popular", getPopularTreks); // popular trek details
+router.get("/gallery", getGallery); // gallery trek
+router.get("/", getAllTreks); // list all treks
+router.get("/:id", getTrekById); // trek details
 
 export default router;

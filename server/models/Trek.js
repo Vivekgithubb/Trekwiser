@@ -9,7 +9,7 @@ const trekSchema = new Schema(
       enum: ["Easy", "Moderate", "Hard"],
       required: true,
     },
-    season: { type: String },
+    season: [{ type: String }],
     description: { type: String },
     images: [{ type: String }],
     highlights: [
@@ -29,4 +29,4 @@ const trekSchema = new Schema(
   { timestamps: true }
 );
 
-export const Trek = mongoose.model("Trek", trekSchema);
+export const Trek = mongoose.model("Trek", trekSchema, "treks");

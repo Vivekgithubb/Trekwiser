@@ -39,7 +39,8 @@ export const loginUser = async (req, res) => {
 
     // check password
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+    if (!isMatch)
+      return res.status(400).json({ message: "Invalid credentials" });
 
     // generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
@@ -52,17 +53,33 @@ export const loginUser = async (req, res) => {
   }
 };
 
+// ✅ Get all user
+export const getUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    console.log(users);
+
+    res.status(200).json({
+      status: "success",
+      results: users.length,
+      data: { users },
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 // ✅ Get user profile
 export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
     res.status(200).json({
-      status:"sucess",
-      data:{
-        user
-      }
-    })
+      status: "sucess",
+      data: {
+        user,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
