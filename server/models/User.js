@@ -27,6 +27,17 @@ const userSchema = new Schema(
 
     savedTreks: [{ type: Schema.Types.ObjectId, ref: "Trek" }], // Only bookmarking feature
 
+    phonenumber: String,
+    city: String,
+    description: {
+      type: String,
+      minlength: 10,
+      maxlength: 50,
+    },
+    badges: {
+      type: String,
+      enum: ["Clean God", "Master At Cleanliness", "Legend at work"],
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -62,6 +73,15 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+//Encryption between getting the data and saving the data
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next(); //if the field is not been modified skip and call next midleware
+
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConf = undefined; //deleting the confirmed password
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
+});
 // ✅ Methods
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);

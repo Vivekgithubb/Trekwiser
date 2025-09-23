@@ -5,7 +5,15 @@ import bcrypt from "bcrypt";
 // ✅ Register new user
 export const registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const {
+      username,
+      email,
+      password,
+      passwordConf,
+      city,
+      phonenumber,
+      description,
+    } = req.body;
 
     // check if user exists
     const existingUser = await User.findOne({ email });
@@ -13,13 +21,14 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const user = await User.create({
       username,
       email,
-      password: hashedPassword,
+      password,
+      passwordConf,
+      city,
+      phonenumber,
+      description,
     });
 
     res.status(201).json({ message: "User registered successfully", user });
@@ -34,7 +43,7 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     // check user
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
     // check password
