@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Link } from "react-router";
 
 export function LoginForm({ className, ...props }) {
   return (
@@ -21,7 +22,7 @@ export function LoginForm({ className, ...props }) {
             Email
           </Label>
           <Input
-            className="text-[12px] border-1 border-black bg-transparent"
+            className="text-[12px] border-1 border-black bg-transparent backdrop-blur-[2px]"
             id="email"
             type="email"
             placeholder="m@example.com"
@@ -40,17 +41,22 @@ export function LoginForm({ className, ...props }) {
               Forgot your password?
             </a> */}
           </div>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            required
+            className="text-[12px] border-1 border-black bg-transparent backdrop-blur-[2px]"
+          />
         </div>
         <Button type="submit" className="w-full">
           Login
         </Button>
       </div>
-      <div className="text-center text-sm">
+      <div className="text-center text-sm text-white italic">
         Don&apos;t have an account?{" "}
-        <a href="#" className="underline underline-offset-4">
+        <Link to="/signup" className="underline underline-offset-4">
           Sign up
-        </a>
+        </Link>
       </div>
     </form>
   );

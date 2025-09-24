@@ -20,7 +20,11 @@ const app = express();
 // Core Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173", // ✅ Your frontend's URL
+    origin: [
+      "http://localhost:5173", // for laptop
+      "http://127.0.0.1:5173", // just in case
+      "http://192.168.0.106:5173", // your LAN IP for phone
+    ], // ✅ Your frontend's URL
     credentials: true, // ✅ Allow cookies
   })
 );
@@ -43,6 +47,6 @@ app.get("/api/test", (req, res) => {
   res.send("Backend is working!");
 });
 // Start the server
-app.listen(3000, () => {
+app.listen(3000, "0.0.0.0", () => {
   console.log("Backend is running on port 3000");
 });

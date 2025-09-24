@@ -1,7 +1,7 @@
 import { User } from "../models/User.js";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-
+import dotenv from "dotenv";
+dotenv.config({ path: "../config.env" });
 // ✅ Register new user
 export const registerUser = async (req, res) => {
   try {
@@ -33,7 +33,25 @@ export const registerUser = async (req, res) => {
 
     res.status(201).json({ message: "User registered successfully", user });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    // Handle duplicate key error (E11000)
+    if (err.code === 11000) {
+      return res
+        .status(400)
+        .json({ message: "Username or email already exists1" });
+    }
+
+    // Handle mongoose validation error
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        error: err,
+        message: "Validation failed",
+      });
+    }
+
+    // Default - other errors
+    res
+      .status(500)
+      .json({ message: "Internal Server Error", error: err.message });
   }
 };
 
@@ -44,12 +62,12 @@ export const loginUser = async (req, res) => {
 
     // check user
     const user = await User.findOne({ email }).select("+password");
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
+    if (!user) return res.status(400).json({ message: "Invalid credentials1" });
 
     // check password
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await user.isPasswordCorrect(password, user.password);
     if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid credentials2" });
 
     // generate token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {

@@ -1,5 +1,6 @@
 import ImageCarousel from "@/components/ImageCarasole";
 import AccordianTrek from "@/components/ui/AccordianTrek";
+import axios from "axios";
 import { BookOpenCheck, Calendar1, LandPlot, TimerReset } from "lucide-react";
 import { Frown } from "lucide-react";
 import {
@@ -13,25 +14,47 @@ import {
   CloudFog,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 
 export default function TrekIndiviual() {
-  const location = "Chikmagalur";
+  const difficultyColors = {
+    Easy: "bg-green-600/20",
+    Moderate: "bg-blue-600/20",
+    Hard: "bg-red-600/20",
+  };
+  const difficultyText = {
+    Easy: "text-green-600",
+    Moderate: "text-blue-600",
+    Hard: "text-red-600",
+  };
   const [weather, setweather] = useState({});
+  const [trek, setTrek] = useState({});
   const KEY = import.meta.env.VITE_WEATHER_API;
-
+  const { id } = useParams();
+  console.log(id);
   useEffect(() => {
-    const url = `https://api.weatherapi.com/v1/current.json?key=${KEY}&q=${location}`;
     const fetchWeather = async () => {
       try {
-        const res = await fetch(url);
-        const data = await res.json();
+        const res1 = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/treks/${id}`
+        );
+        const trekData = res1.data.data.treks;
+        setTrek(trekData);
 
-        if (data.error) {
-          // API returned an error
-          setweather({ message: "Not Available" });
+        const location = trekData.location;
+        if (!location) {
+          console.error("Trek location not available");
+          setweather({ message: "Location not available" });
+          return;
+        }
+        const url = `https://api.weatherapi.com/v1/current.json?key=${KEY}&q=${location}`;
+        const res2 = await fetch(url);
+        const data2 = await res2.json();
+
+        if (data2.error) {
+          setweather({ message: "Oops not available" });
         } else {
-          // Valid data
-          setweather(data);
+          setweather(data2);
         }
       } catch (err) {
         console.log(err);
@@ -39,8 +62,7 @@ export default function TrekIndiviual() {
     };
 
     fetchWeather();
-  }, [location]);
-  console.log(weather);
+  }, [id, KEY]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 relative">
@@ -55,11 +77,18 @@ export default function TrekIndiviual() {
         <div className="bg-[#43D0FF]/40 mt-[270px] rounded-tl-4xl rounded-tr-4xl p-6 space-y-3 shadow-2xl ">
           <div className="flex justify-between items-start">
             <div>
-              <h1 className="text-[20px] font-bold font-logo">Kudremukha</h1>
-              <p className="text-gray-600">Location: {location}</p>
+              <h1 className="text-[20px] font-bold font-logo">{trek.name}</h1>
+              <p className="text-gray-600">Location: {trek.location}</p>
             </div>
-            <span className="bg-red-500 text-white text-[10px] px-3 py-1 rounded-full">
-              Hard
+
+            <span
+              className={`text-[10px] px-3 py-1 rounded-full ${
+                difficultyColors[`${trek.difficulty}`]
+              } font-figtree font-semibold bottom-1 ${
+                difficultyText[`${trek.difficulty}`] || "text-gray-500"
+              }`}
+            >
+              {trek.difficulty}
             </span>
           </div>
           <div className="flex justify-between mt-4 ">
@@ -84,7 +113,7 @@ export default function TrekIndiviual() {
         </div>
         <div className="flex p-2 flex-col w-full bg-white">
           <h1 className="text-[19.5px] ml-3 font-semibold">
-            Weather in {location}
+            Weather in {trek.location}
           </h1>
           <div className="flex flex-row justify-between items-center gap-1">
             <div className="mt-3 h-[120px] flex flex-col items-center w-fit bg-white p-3 rounded-2xl shadow">
@@ -107,7 +136,7 @@ export default function TrekIndiviual() {
             </div>
             <div className="mt-3 h-[130px] w-[120px] relative flex flex-col items-center justify-between bg-white p-3 rounded-2xl shadow">
               <div className="font-semibold text-[23px] relative top-3 text-blue-500">
-                {weather.current?.temp_c}&deg;C
+                {weather?.current?.temp_c}&deg;C
               </div>
               <div className="flex flex-col justify-between items-center">
                 <span className="text-[15px] font-bold mt-2">Weather</span>
@@ -129,17 +158,7 @@ export default function TrekIndiviual() {
         {/* About Section */}
         <div className="bg-white  p-6 shadow space-y-3">
           <h2 className="text-xl font-semibold">About</h2>
-          <p className="text-gray-700 text-sm">
-            The Kudremukh trek is a popular, moderately difficult trek in
-            Karnataka's Chikmagalur district, known for its lush green meadows,
-            shola forests, and stunning panoramic views of the Western Ghats.
-            The 22 km round-trip trek reaches an altitude of approximately 1,892
-            meters (~6,200 ft), with the best time to visit being between June
-            and February. Essential preparations include physical fitness,
-            high-quality hiking gear, packing energy snacks, and hiring an
-            experienced guide, as the trek involves crossing streams and steep
-            climbs through diverse terrain.
-          </p>
+          <p className="text-gray-700 text-sm">{trek.description}</p>
         </div>
 
         {/* Key Attractions */}

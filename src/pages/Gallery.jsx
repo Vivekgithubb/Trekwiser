@@ -9,7 +9,9 @@ export default function GalleryPage() {
   useEffect(() => {
     const fetchTreks = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:3000/api/treks/gallery");
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/treks/gallery`
+        );
         setTreks(res.data.data.images);
       } catch (err) {
         console.log(err);

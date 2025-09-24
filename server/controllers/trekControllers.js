@@ -15,7 +15,12 @@ export const getTrekById = async (req, res) => {
   try {
     const trek = await Trek.findById(req.params.id);
     if (!trek) return res.status(404).json({ message: "Trek not found" });
-    res.json(trek);
+    return res.status(200).json({
+      status: "success",
+      data: {
+        treks: trek,
+      },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

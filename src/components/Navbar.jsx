@@ -26,7 +26,11 @@ export default function Navbar() {
           to: "/community",
         },
         { label: "Gallery", ariaLabel: "View all photos", to: "/gallery" },
-        { label: "Add new Post", ariaLabel: "Add new post", to: "/gallery" },
+        {
+          label: "Add new Post",
+          ariaLabel: "Add new post",
+          to: "/profile/addpost",
+        },
       ],
     },
 

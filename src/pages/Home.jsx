@@ -34,7 +34,10 @@ export default function Home() {
   useEffect(() => {
     const fetchTreks = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:3000/api/treks/popular");
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/treks/popular`
+        );
+        console.log("Fetched treks:", res.data);
         setPopularTreks(res.data.data.treks);
       } catch (err) {
         console.log(err);

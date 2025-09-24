@@ -8,7 +8,9 @@ export default function TreksMain() {
   useEffect(() => {
     const fetchTreks = async () => {
       try {
-        const res = await axios.get("http://127.0.0.1:3000/api/treks");
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/treks`
+        );
         setTreks(res.data);
       } catch (err) {
         console.log(err);
@@ -30,7 +32,7 @@ export default function TreksMain() {
           waiting for you.
         </h3>
         <div className="flex flex-col w-full justify-center items-center mt-10">
-          {Treks.map((trek, i) => (
+          {Treks.map((trek) => (
             <TreksCard
               key={trek._id}
               image={trek}

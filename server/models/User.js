@@ -45,7 +45,7 @@ const userSchema = new Schema(
       select: false,
     },
     passwordConf: {
-      type: string,
+      type: String,
       required: [true, "Needs to have a password"],
       validate: {
         validator: function (el) {
@@ -61,17 +61,17 @@ const userSchema = new Schema(
 );
 
 // ✅ Password hashing middleware
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
-  try {
-    if (!this.password.startsWith("$2")) {
-      this.password = await bcrypt.hash(this.password, 10);
-    }
-    next();
-  } catch (err) {
-    next(err);
-  }
-});
+// userSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) return next();
+//   try {
+//     if (!this.password.startsWith("$2")) {
+//       this.password = await bcrypt.hash(this.password, 10);
+//     }
+//     next();
+//   } catch (err) {
+//     next(err);
+//   }
+// });
 
 //Encryption between getting the data and saving the data
 userSchema.pre("save", async function (next) {
@@ -83,8 +83,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 // ✅ Methods
-userSchema.methods.isPasswordCorrect = async function (password) {
-  return await bcrypt.compare(password, this.password);
+userSchema.methods.isPasswordCorrect = async function (
+  password,
+  currentPassword
+) {
+  return await bcrypt.compare(password, currentPassword);
 };
 
 userSchema.methods.generateAccessToken = function () {
