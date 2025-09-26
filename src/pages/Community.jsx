@@ -1,4 +1,3 @@
-import SearchBar from "@/components/SearchBar";
 import TrekDetailCard from "@/components/TrekDetailCard";
 
 export default function Community() {
@@ -15,7 +14,14 @@ export default function Community() {
   return (
     <div>
       <div className="mt-15">
-        <SearchBar />
+        <div className="w-full text-center">
+          <h1 className="font-title text-xl font-light">Community</h1>
+          <h3 className="text-[12px]">
+            Share your best experiences and help people explore.
+          </h3>
+        </div>
+
+        {/* <SearchBar /> */}
         <TrekDetailCard />
         <TrekDetailCard
           image={image}

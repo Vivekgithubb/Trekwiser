@@ -15,12 +15,12 @@ export default function TreksCard({ image, trek }) {
     Hard: "text-red-600",
   };
   return (
-    <div className=" mb-2 w-full h-[140px] border border-gray-200 rounded-lg grid grid-cols-[40%_60%]">
+    <div className=" mb-2 w-full h-fit py-2  border border-gray-200 rounded-lg grid grid-cols-[40%_60%]">
       {/* Left: Image */}
-      <div className="flex justify-center items-center mt-1 h-[130px] overflow-hidden">
+      <div className="flex justify-center items-center mb-2 h-full overflow-hidden">
         <img
           src={`/home${image}.jpg`}
-          className="rounded-lg object-cover w-full h-full "
+          className="rounded-lg object-cover w-full h-full  bg-blue-200"
         />
       </div>
 

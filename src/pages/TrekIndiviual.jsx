@@ -63,6 +63,9 @@ export default function TrekIndiviual() {
 
     fetchWeather();
   }, [id, KEY]);
+  console.log(trek);
+  let trekLength = Number(trek.length?.split(" ").splice(0, 1).join(" "));
+  trekLength = trekLength / 2;
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 relative">
@@ -94,18 +97,22 @@ export default function TrekIndiviual() {
           <div className="flex justify-between mt-4 ">
             <div className="flex flex-col items-center bg-white p-3 rounded-2xl shadow ">
               <LandPlot />
-              <span className="text-[13px] font-bold mt-2">8.6 km</span>
+              <span className="text-[13px] font-bold mt-2">
+                {trekLength} Km
+              </span>
               <span className="text-gray-500 text-[13px]">Distance</span>
             </div>
             <div className="flex flex-col items-center bg-white p-3 rounded-2xl shadow">
               <TimerReset />
-              <span className="text-[13px] font-bold mt-2">22 hr</span>
+              <span className="text-[13px] font-bold mt-2">
+                {trek.duration}
+              </span>
               <span className="text-gray-500 text-[13px]">Duration</span>
             </div>
             <div className="flex flex-col items-center bg-white p-3 rounded-2xl shadow">
               <Calendar1 />
               <span className="text-[13px] font-bold mt-2">
-                June to February
+                {trek.bestTime}
               </span>
               <span className="text-gray-500 text-[13px]">Best Month</span>
             </div>
@@ -165,57 +172,30 @@ export default function TrekIndiviual() {
         <div className="bg-white  p-6 shadow space-y-3">
           <h2 className="text-xl font-semibold">Key Attractions</h2>
           <ul className="list-disc text-[13px] list-inside text-gray-700 text-sm space-y-1">
-            <li className="flex items-center gap-2">
-              <Trees className="w-4 h-4 text-green-600" />
-              Rolling green hills & Shola forests
-            </li>
-            <li className="flex items-center gap-2">
-              <Mountain className="w-4 h-4 text-gray-700" />
-              Horse-face peak (Varaha Parvatha)
-            </li>
-            <li className="flex items-center gap-2">
-              <Waves className="w-4 h-4 text-blue-500" />
-              Streams & waterfalls (like Kodamboli Falls)
-            </li>
-            <li className="flex items-center gap-2">
-              <Bird className="w-4 h-4 text-yellow-500" />
-              Rich flora & birdlife
-            </li>
-            <li className="flex items-center gap-2">
-              <PawPrint className="w-4 h-4 text-brown-600" />
-              Wildlife sightings (deer, gaur, peacocks)
-            </li>
-            <li className="flex items-center gap-2">
-              <Sun className="w-4 h-4 text-orange-500" />
-              Panoramic summit views
-            </li>
-            <li className="flex items-center gap-2">
-              <Landmark className="w-4 h-4 text-gray-600" />
-              Old mining ruins
-            </li>
-            <li className="flex items-center gap-2">
-              <CloudFog className="w-4 h-4 text-blue-400" />
-              Misty, cool mountain climate
-            </li>
+            {trek.keyAttractions?.map((att) => (
+              <li className="flex items-center gap-2">{att}</li>
+            ))}
           </ul>
         </div>
 
         {/* Trek Link */}
-        <div className="bg-white flex flex-row justify-start gap-3 items-center p-6 shadow text-center">
-          <BookOpenCheck className="text-orange-500" />
-          <a
-            href="https://karnatakatourism.gov.in/"
-            target="_blank"
-            className="text-blue-500 font-medium hover:underline"
-          >
-            Book Your Trek at Karnataka Tourism
-          </a>
-        </div>
+        {trek.bookingLink && (
+          <div className="bg-white flex flex-row justify-start gap-3 items-center p-6 shadow text-center">
+            <BookOpenCheck className="text-orange-500" />
+            <a
+              href={trek.bookingLink}
+              target="_blank"
+              className="text-blue-500 font-medium hover:underline"
+            >
+              Book Your Trek Now
+            </a>
+          </div>
+        )}
 
         {/* Frequently Asked Questions */}
         <div className="bg-white  p-6 shadow space-y-3">
           <h2 className="text-xl font-semibold">Frequently Asked Questions</h2>
-          <AccordianTrek />
+          <AccordianTrek question={trek.faq} />
         </div>
       </div>
     </div>

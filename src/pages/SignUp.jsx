@@ -11,13 +11,17 @@ export function SignUp({ className, ...props }) {
   const {
     register,
     handleSubmit,
-    watch,
+    // watch,
     formState: { errors },
   } = useForm();
   const navigate = useNavigate();
   const { signUp, isLoading } = useSignUp();
   const onSubmit = async (formData) => {
     console.log("Sending data to backend:", formData);
+    if (formData.password != formData.passwordConf) {
+      toast.error("Password not same");
+      return;
+    }
     signUp(formData, {
       onSuccess: () => {
         console.log("Signup succeeded!");
@@ -53,7 +57,7 @@ export function SignUp({ className, ...props }) {
       },
     });
   };
-  const password = watch("password");
+  // const password = watch("password");
 
   return (
     <div className=" m-8">
@@ -77,14 +81,14 @@ export function SignUp({ className, ...props }) {
         <div className="grid gap-4">
           {/* Name */}
           <div className="grid gap-1">
-            <Label htmlFor="name">Full Name</Label>
+            <Label htmlFor="username">Full Name</Label>
             <Input
               id="username"
               placeholder="John Doe"
               {...register("username", { required: "Name is required" })}
             />
-            {errors.name && (
-              <p className="text-red-500 text-xs">{errors.name.message}</p>
+            {errors.username && (
+              <p className="text-red-500 text-xs">{errors.username.message}</p>
             )}
           </div>
 
@@ -132,13 +136,18 @@ export function SignUp({ className, ...props }) {
               type="password"
               {...register("passwordConf", {
                 required: "Please confirm password",
-                validate: (value) =>
-                  value === password || "Passwords do not match",
+                // validate: (value) => {
+                //   if (value !== watch("password")) {
+                //     toast.error("Passwords do not match");
+                //     return "Passwords do not match";
+                //   }
+                //   return true;
+                // },
               })}
             />
-            {errors.confirmPassword && (
+            {errors.passwordConf && (
               <p className="text-red-500 text-xs">
-                {errors.confirmPassword.message}
+                {errors.passwordConf.message}
               </p>
             )}
           </div>
@@ -190,13 +199,17 @@ export function SignUp({ className, ...props }) {
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            Sign Up
-          </Button>
+          <button
+            type="submit"
+            className="w-full bg-zinc-800 text-white py-[7px] rounded-md  hover:bg-blue-600 active:bg-blue-700"
+            disabled={isLoading}
+          >
+            {isLoading ? "Signing Up..." : "Sign Up"}
+          </button>
         </div>
 
         {/* Footer */}
-        <div className="text-center text-sm text-white italic">
+        <div className="text-center text-sm text-black italic">
           Already have an account?{" "}
           <Link to="/login" className="underline underline-offset-4">
             Login
