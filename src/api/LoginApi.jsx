@@ -5,7 +5,8 @@ export const LoginApi = async (userData) => {
   // userData = { fullName, email, password, ... }
   const res = await axios.post(
     `${import.meta.env.VITE_API_URL}/api/users/login`,
-    userData
+    userData,
+    { withCredentials: true }
   );
   return res.data;
 };

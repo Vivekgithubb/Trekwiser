@@ -11,6 +11,7 @@ import AddPost from "./pages/AddPost";
 import { SignUp } from "./pages/SignUp";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import { ProtectedRute } from "./components/protectedRoute";
 
 function App() {
   const queryClient = new QueryClient({
@@ -30,8 +31,23 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/" element={<AppLayout />}>
               <Route path="/" element={<Home />} />
-              <Route path="/profile/:id" element={<Profile />} />
-              <Route path="/profile/addpost/:id" element={<AddPost />} />
+              <Route path="/home" element={<Home />} />
+              <Route
+                path="/profile/:id"
+                element={
+                  <ProtectedRute>
+                    <Profile />
+                  </ProtectedRute>
+                }
+              />
+              <Route
+                path="/profile/addpost/:id"
+                element={
+                  <ProtectedRute>
+                    <AddPost />
+                  </ProtectedRute>
+                }
+              />
               <Route path="/treks" element={<TreksMain />} />
               {/* <Route path="/treks/:id" element={<TrekIndiviual />} /> */}
               <Route path="/treks/:id" element={<TrekIndiviual />} />

@@ -29,7 +29,7 @@ export default function Navbar() {
         {
           label: "Add new Post",
           ariaLabel: "Add new post",
-          to: "/profile/addpost",
+          to: "/profile/addpost/:id",
         },
       ],
     },

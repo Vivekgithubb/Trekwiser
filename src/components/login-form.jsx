@@ -2,25 +2,28 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useLogin } from "@/hooks/LoginHook";
 import toast from "react-hot-toast";
 
 export function LoginForm({ className, ...props }) {
   const { Login, isLoading } = useLogin();
+  const navigate = useNavigate();
+  const location = useLocation();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const navigate = useNavigate();
+
+  const from = location?.state?.from?.pathname || "/";
   const onSubmit = async (data) => {
     console.log("sending login data to backend");
     Login(data, {
       onSuccess: () => {
         toast.success("Login successfull");
-        navigate("/");
+        navigate(from, { replace: true });
       },
       onError: () => {
         toast.error("Login unSucessfull");

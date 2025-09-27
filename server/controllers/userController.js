@@ -70,13 +70,49 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials2" });
 
     // generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, {
       // expiresIn: "1d",
     });
-
+    res.cookie("accessToken", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "lax",
+      path: "/",
+    });
     res.json({ message: "Login successful", token });
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const logout = async (req, res) => {
+  res.clearCookie("accessToken", {
+    httpOnly: true,
+    secure: false, // set true in production with HTTPS
+    sameSite: "lax",
+    path: "/",
+  });
+  res.json("Logged out succesfully");
+};
+
+export const changeDesc = async (req, res) => {
+  const { desc, id } = req.body;
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { description: desc },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json({
+      message: "Description updated successfully",
+      user: updatedUser,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(404).json({ error: "Something went wrong" });
   }
 };
 
