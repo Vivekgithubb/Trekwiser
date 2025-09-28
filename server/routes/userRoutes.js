@@ -28,6 +28,7 @@ router.post(
     res.json({ message: "Profile pic uploaded", url: req.file.path });
   }
 );
+
 console.log(req.file);   // for single upload
 console.log(req.files);  // for multiple uploads
 

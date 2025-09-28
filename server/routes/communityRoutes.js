@@ -20,6 +20,7 @@ router.post(
     res.json({ message: "Post images uploaded", urls: req.files.map(f => f.path) });
   }
 );
+
 console.log(req.file);   // for single upload
 console.log(req.files);  // for multiple uploads
 
