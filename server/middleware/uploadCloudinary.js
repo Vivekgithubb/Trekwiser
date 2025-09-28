@@ -1,6 +1,6 @@
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
-import cloudinary from "../../Config/Cloudinary.js"; // import Cloudinary instance
+import cloudinary from "../Config/Cloudinary.js"; // import Cloudinary instance
 
 // Profile pics
 const profilePicStorage = new CloudinaryStorage({

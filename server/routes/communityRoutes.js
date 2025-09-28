@@ -1,5 +1,9 @@
 import express from "express";
-import { createPost, getAllPosts, getUserPosts } from "../controllers/communityControllers.js";
+import {
+  createPost,
+  getAllPosts,
+  getUserPosts,
+} from "../controllers/communityControllers.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { uploadPostImage } from "../middleware/uploadCloudinary.js";
 
@@ -17,10 +21,13 @@ router.post(
   authMiddleware,
   uploadPostImage.array("images", 10),
   (req, res) => {
-    res.json({ message: "Post images uploaded", urls: req.files.map(f => f.path) });
+    res.json({
+      message: "Post images uploaded",
+      urls: req.files.map((f) => f.path),
+    });
   }
 );
-console.log(req.file);   // for single upload
-console.log(req.files);  // for multiple uploads
+// console.log(req.file);   // for single upload
+// console.log(req.files);  // for multiple uploads
 
 export default router;
