@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 
 // Import your route files
 import userRoutes from "./routes/userRoutes.js";
@@ -16,7 +17,7 @@ dotenv.config({
 // console.log("My secret is:", process.env.ACCESS_TOKEN_SECRET);
 
 const app = express();
-
+app.use(cookieParser());
 // Core Middleware
 app.use(
   cors({

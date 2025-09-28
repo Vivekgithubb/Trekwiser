@@ -5,9 +5,7 @@ import toast from "react-hot-toast";
 export function useLogin() {
   const { mutate: Login, isLoading } = useMutation({
     mutationFn: LoginApi,
-    onSuccess: () => {
-      toast.success("Succesfully Logged in");
-    },
+    onSuccess: () => {},
     onError: (error) => {
       toast.error(error.response?.data?.message || "Login failed");
     },

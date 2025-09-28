@@ -56,6 +56,7 @@ export default function TrekIndiviual() {
         } else {
           setweather(data2);
         }
+        window.scrollTo(0, 0);
       } catch (err) {
         console.log(err);
       }
