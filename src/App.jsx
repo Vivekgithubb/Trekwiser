@@ -12,6 +12,7 @@ import { SignUp } from "./pages/SignUp";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import { ProtectedRute } from "./components/protectedRoute";
+import ViewPosts from "./pages/ViewPosts";
 
 function App() {
   const queryClient = new QueryClient({
@@ -45,6 +46,14 @@ function App() {
                 element={
                   <ProtectedRute>
                     <AddPost />
+                  </ProtectedRute>
+                }
+              />
+              <Route
+                path="/profile/viewpost/"
+                element={
+                  <ProtectedRute>
+                    <ViewPosts />
                   </ProtectedRute>
                 }
               />

@@ -21,8 +21,8 @@ export const createPost = async (req, res) => {
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await CommunityPost.find()
-      .populate("user", "username")
-      .populate("trek", "name");
+      .populate("user", "username avatar")
+      .sort({ createedAt: -1 });
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });

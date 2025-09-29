@@ -156,3 +156,13 @@ body {
 .swiper-button-prev::after {
   @apply text-white text-xs; /* arrow size */
 }
+
+.swiper-button-prev,
+.swiper-button-next {
+  @apply text-white bg-black/40 rounded-full w-8 h-8;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  @apply text-lg;
+  font-size: 25px;
+}

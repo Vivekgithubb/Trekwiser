@@ -19,6 +19,7 @@ export default function GalleryPage() {
     };
     fetchTreks();
   }, []);
+  console.log(Treks);
   return (
     <div className="h-screen bg-white mt-16 ">
       <h1 className="text-3xl font-bold text-center mb-3 font-logo">
@@ -62,7 +63,7 @@ export default function GalleryPage() {
             `}
               >
                 <img
-                  src={img}
+                  src={img.url}
                   alt={`Trek ${index + 1}`}
                   className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                 />

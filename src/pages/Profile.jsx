@@ -203,7 +203,9 @@ export default function ProfilePage() {
           <span className="absolute left-4 top-1/2 -translate-y-1/2">
             <EyeIcon className="w-5 h-5" />
           </span>
-          <span className="block text-center">View posts</span>
+          <Link to="/profile/viewpost" className="block text-center">
+            View posts
+          </Link>
         </button>
       </div>
 

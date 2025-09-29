@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
 import { Heart } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const AddPost = ({ user }) => {
   const [title, setTitle] = useState("");
@@ -9,13 +12,16 @@ const AddPost = ({ user }) => {
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
   const [images, setImages] = useState([]);
+  const [progress, setprogress] = useState(0);
+  const [uploading, setUploading] = useState(false);
+  const navigate = useNavigate();
 
   // Handle multiple image upload
   const handleImageChange = (e) => {
     setImages([...e.target.files]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Prepare form data
     const postData = new FormData();
@@ -23,21 +29,38 @@ const AddPost = ({ user }) => {
     postData.append("location", location);
     postData.append("description", description);
     postData.append("difficulty", difficulty);
-    postData.append("userId", user.id); // userId comes from backend auth
+    // postData.append("userId", user.id); // userId comes from backend auth
 
-    images.forEach((img) => {
+    Array.from(images).forEach((img) => {
       postData.append("images", img);
     });
 
     // Send to backend
-    fetch("/api/posts", {
-      method: "POST",
-      body: postData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Post created:", data);
-      });
+    try {
+      setUploading(true);
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/community/upload-post`,
+        postData,
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setprogress(percentCompleted);
+          },
+        }
+      );
+      console.log("Done uploading posts");
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setUploading(false);
+      setprogress(0);
+      toast.success("Post added Succesfully");
+      navigate(-1);
+    }
   };
 
   return (
@@ -83,8 +106,8 @@ const AddPost = ({ user }) => {
             className="w-full border rounded-lg p-2"
           >
             <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Difficult">Difficult</option>
           </select>
 
           {/* Multiple image upload */}
@@ -121,9 +144,23 @@ const AddPost = ({ user }) => {
             </div>
           )}
 
-          <Button type="submit" className="w-full mt-4">
+          <button
+            type="submit"
+            className={`w-full mt-4 text-white py-1 font-figtree rounded-lg text-[15px] ${
+              uploading ? "bg-zinc-600" : "bg-black"
+            }`}
+            disabled={uploading}
+          >
             Post
-          </Button>
+          </button>
+          {uploading && (
+            <div className="w-full bg-gray-200 rounded mt-2 h-3 overflow-hidden">
+              <div
+                className="bg-blue-500 h-3 rounded"
+                style={{ width: `${progress}%`, transition: "width 2.6s" }}
+              ></div>
+            </div>
+          )}
         </form>
 
         {/* Live Preview */}

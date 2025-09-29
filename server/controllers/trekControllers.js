@@ -1,4 +1,5 @@
 import { Trek } from "../models/Trek.js";
+import { CommunityPost } from "../models/Community.js";
 
 // ✅ Get all treks
 export const getAllTreks = async (req, res) => {
@@ -50,10 +51,10 @@ export const getPopularTreks = async (req, res) => {
 
 export const getGallery = async (req, res) => {
   try {
-    const images = (await Trek.find({}, { images: 1, _id: 0 })).flatMap(
-      (trek) => trek.images
-    );
-    if (!images)
+    const images = (
+      await CommunityPost.find({}, { images: 1, _id: 0 })
+    ).flatMap((trek) => trek.images);
+    if (!images || images.length === 0)
       return res.status(400).json({
         satus: "NO image",
       });
