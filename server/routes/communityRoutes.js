@@ -7,6 +7,7 @@ import {
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { uploadPostImage } from "../middleware/uploadCloudinary.js";
 import { CommunityPost } from "../models/Community.js";
+import { addpost } from "../controllers/communityControllers.js";
 
 const router = express.Router();
 
@@ -16,6 +17,7 @@ router.get("/", getAllPosts);
 // ✅ Protected
 router.post("/", authMiddleware, createPost);
 router.get("/my-posts", authMiddleware, getUserPosts);
+router.post("/posts", authMiddleware, addpost);
 
 router.post(
   "/upload-post",

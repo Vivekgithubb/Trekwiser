@@ -22,7 +22,7 @@ export const getAllPosts = async (req, res) => {
   try {
     const posts = await CommunityPost.find()
       .populate("user", "username avatar")
-      .sort({ createedAt: -1 });
+      .sort({ createdAt: -1 });
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -39,5 +39,24 @@ export const getUserPosts = async (req, res) => {
     res.json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+};
+
+export const addpost = async (req, res) => {
+  try {
+    const { title, location, description, images, difficulty } = req.body;
+    const post = new CommunityPost({
+      title,
+      location,
+      description,
+      images: images.map((url) => ({ url })),
+      difficulty,
+      user: req.user?._id,
+    });
+    await post.save();
+    res.status(201).json({ status: "success", data: post });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ status: "error", message: "Something went wrong" });
   }
 };

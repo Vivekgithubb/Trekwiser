@@ -87,6 +87,20 @@ router.get("/cloudinary-signature", authMiddleware, (req, res) => {
     api_key: process.env.CLOUDINARY_API_KEY,
   });
 });
+router.get("/cloudinary-signature-post", authMiddleware, (req, res) => {
+  const timestamp = Math.floor(Date.now() / 1000);
+  const signature = cloudinary.utils.api_sign_request(
+    { timestamp, folder: "images-post" },
+    process.env.CLOUDINARY_API_SECRET
+  );
+
+  res.json({
+    signature,
+    timestamp,
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+  });
+});
 
 router.post("/save-avatar", authMiddleware, async (req, res) => {
   try {

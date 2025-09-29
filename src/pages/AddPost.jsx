@@ -23,6 +23,7 @@ const AddPost = ({ user }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
     // Prepare form data
     const postData = new FormData();
     postData.append("title", title);
@@ -30,36 +31,58 @@ const AddPost = ({ user }) => {
     postData.append("description", description);
     postData.append("difficulty", difficulty);
     // postData.append("userId", user.id); // userId comes from backend auth
-
-    Array.from(images).forEach((img) => {
-      postData.append("images", img);
-    });
-
-    // Send to backend
     try {
-      setUploading(true);
+      // 1. Get Cloudinary signature from backend
+      const { data: sig } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/users/cloudinary-signature-post`,
+        { withCredentials: true }
+      );
+      console.log(sig);
+
+      // 2. Upload each image to Cloudinary
+      const uploadedUrls = [];
+      for (const img of images) {
+        const formData = new FormData();
+        formData.append("file", img);
+        formData.append("api_key", sig.api_key);
+        formData.append("timestamp", sig.timestamp);
+        formData.append("signature", sig.signature);
+        formData.append("folder", "images-post");
+
+        const cloudRes = await axios.post(
+          `https://api.cloudinary.com/v1_1/${sig.cloud_name}/image/upload`,
+          formData,
+          {
+            onUploadProgress: (evt) => {
+              const percent = Math.round((evt.loaded * 100) / evt.total);
+              setprogress(percent);
+            },
+          }
+        );
+
+        uploadedUrls.push(cloudRes.data.secure_url);
+      }
+
+      //3 send post data + image url to backend
       await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/community/upload-post`,
-        postData,
+        `${import.meta.env.VITE_API_URL}/api/community/posts`,
         {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-          onUploadProgress: (progressEvent) => {
-            const percentCompleted = Math.round(
-              (progressEvent.loaded * 100) / progressEvent.total
-            );
-            setprogress(percentCompleted);
-          },
-        }
+          title,
+          location,
+          description,
+          difficulty,
+          images: uploadedUrls,
+        },
+        { withCredentials: true }
       );
       console.log("Done uploading posts");
+      toast.success("Post added successfully!");
+      navigate(-1);
     } catch (err) {
       console.log(err);
     } finally {
       setUploading(false);
       setprogress(0);
-      toast.success("Post added Succesfully");
-      navigate(-1);
     }
   };
 

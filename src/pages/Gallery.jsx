@@ -21,7 +21,7 @@ export default function GalleryPage() {
   }, []);
   console.log(Treks);
   return (
-    <div className="h-screen bg-white mt-16 ">
+    <div className="h-screen bg-white mt-16 overflow-hidden">
       <h1 className="text-3xl font-bold text-center mb-3 font-logo">
         Trek Gallery
       </h1>
@@ -63,9 +63,10 @@ export default function GalleryPage() {
             `}
               >
                 <img
-                  src={img.url}
+                  src={img.url + "?w=300&h=300&c_fill"}
                   alt={`Trek ${index + 1}`}
-                  className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-500 will-change-transform"
                 />
                 <div className="absolute inset-0 bg-black/20 hover:bg-black/40 transition-colors"></div>
               </div>
@@ -76,7 +77,7 @@ export default function GalleryPage() {
         <GradualBlur
           target="parent"
           position="bottom"
-          height="13rem"
+          height="4rem"
           strength={1}
           divCount={5}
           curve="bezier"

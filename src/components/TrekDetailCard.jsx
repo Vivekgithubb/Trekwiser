@@ -185,7 +185,6 @@ export default function TrekDetailCard({
               </SwiperSlide>
             ))}
           </Swiper>
-
           {/* Optional overlay title/location on image */}
           <div className="absolute bottom-3 left-3 z-10 text-white">
             <h2 className="text-lg font-bold drop-shadow-lg">{title}</h2>
@@ -212,7 +211,9 @@ export default function TrekDetailCard({
               {difficulty}
             </span>
           </div>
-          <p className="text-sm text-gray-700 mt-2 italic">{description}</p>
+          <p className="text-sm text-gray-700 mt-2 italic font-light">
+            "{description}"
+          </p>
         </CardContent>
       </Card>
     </div>
