@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+
 import { Heart } from "lucide-react";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const AddPost = ({ user }) => {
   const [title, setTitle] = useState("");
@@ -9,35 +12,78 @@ const AddPost = ({ user }) => {
   const [description, setDescription] = useState("");
   const [difficulty, setDifficulty] = useState("Easy");
   const [images, setImages] = useState([]);
+  const [progress, setprogress] = useState(0);
+  const [uploading, setUploading] = useState(false);
+  const navigate = useNavigate();
 
   // Handle multiple image upload
   const handleImageChange = (e) => {
     setImages([...e.target.files]);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setUploading(true);
     // Prepare form data
     const postData = new FormData();
     postData.append("title", title);
     postData.append("location", location);
     postData.append("description", description);
     postData.append("difficulty", difficulty);
-    postData.append("userId", user.id); // userId comes from backend auth
+    // postData.append("userId", user.id); // userId comes from backend auth
+    try {
+      // 1. Get Cloudinary signature from backend
+      const { data: sig } = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/users/cloudinary-signature-post`,
+        { withCredentials: true }
+      );
+      console.log(sig);
 
-    images.forEach((img) => {
-      postData.append("images", img);
-    });
+      // 2. Upload each image to Cloudinary
+      const uploadedUrls = [];
+      for (const img of images) {
+        const formData = new FormData();
+        formData.append("file", img);
+        formData.append("api_key", sig.api_key);
+        formData.append("timestamp", sig.timestamp);
+        formData.append("signature", sig.signature);
+        formData.append("folder", "images-post");
 
-    // Send to backend
-    fetch("/api/posts", {
-      method: "POST",
-      body: postData,
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Post created:", data);
-      });
+        const cloudRes = await axios.post(
+          `https://api.cloudinary.com/v1_1/${sig.cloud_name}/image/upload`,
+          formData,
+          {
+            onUploadProgress: (evt) => {
+              const percent = Math.round((evt.loaded * 100) / evt.total);
+              setprogress(percent);
+            },
+          }
+        );
+
+        uploadedUrls.push(cloudRes.data.secure_url);
+      }
+
+      //3 send post data + image url to backend
+      await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/community/posts`,
+        {
+          title,
+          location,
+          description,
+          difficulty,
+          images: uploadedUrls,
+        },
+        { withCredentials: true }
+      );
+      console.log("Done uploading posts");
+      toast.success("Post added successfully!");
+      navigate(-1);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setUploading(false);
+      setprogress(0);
+    }
   };
 
   return (
@@ -83,8 +129,8 @@ const AddPost = ({ user }) => {
             className="w-full border rounded-lg p-2"
           >
             <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="Moderate">Moderate</option>
+            <option value="Difficult">Difficult</option>
           </select>
 
           {/* Multiple image upload */}
@@ -121,9 +167,23 @@ const AddPost = ({ user }) => {
             </div>
           )}
 
-          <Button type="submit" className="w-full mt-4">
+          <button
+            type="submit"
+            className={`w-full mt-4 text-white py-1 font-figtree rounded-lg text-[15px] ${
+              uploading ? "bg-zinc-600" : "bg-black"
+            }`}
+            disabled={uploading}
+          >
             Post
-          </Button>
+          </button>
+          {uploading && (
+            <div className="w-full bg-gray-200 rounded mt-2 h-3 overflow-hidden">
+              <div
+                className="bg-blue-500 h-3 rounded"
+                style={{ width: `${progress}%`, transition: "width 2.6s" }}
+              ></div>
+            </div>
+          )}
         </form>
 
         {/* Live Preview */}

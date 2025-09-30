@@ -42,7 +42,7 @@ export default function Navbar() {
         {
           label: "Profile",
           ariaLabel: "View user profile",
-          to: "/profile/:id",
+          to: "/profile/",
         },
       ],
     },

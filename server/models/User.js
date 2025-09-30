@@ -1,7 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { string } from "mathjs";
 
 //model structure
 const userSchema = new Schema(
@@ -9,10 +8,14 @@ const userSchema = new Schema(
     username: {
       type: String,
       required: true,
-      unique: true,
+      // unique: true,
       lowercase: true,
       trim: true,
       index: true,
+    },
+    avatar: {
+      url: { type: String },
+      public_id: { type: String }, // Cloudinary public ID
     },
 
     email: {

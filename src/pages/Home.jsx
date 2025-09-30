@@ -63,7 +63,7 @@ export default function Home() {
             </div>
             <div className="flex flex-row gap-6 justify-center items-center mt-15">
               <Button text="Exlpore treks" to="treks" arrow="yes" />
-              <Button text="View Community" to="commmunity" arrow="no" />
+              <Button text="View Community" to="community" arrow="no" />
             </div>
             <div className="text-center flex flex-row justify-center items-center font-light mt-10 font-figtree text-zinc-100 ">
               <div className="w-fit">
