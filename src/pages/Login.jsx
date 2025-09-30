@@ -19,36 +19,35 @@ export default function Login() {
           />
         </div>
       ) : (
-        <div className="relative w-full h-screen flex flex-col justify-center items-center text-center">
+        <div className="relative w-full h-screen grid grid-rows-[25%_75%] justify-center items-top">
           {/* Background Image */}
-          <img
+          {/* <img
             src="/home2.jpg"
             alt="Background"
             className="absolute inset-0 w-full h-full object-cover -z-10"
-          />
+            /> */}
 
           {/* Overlay (optional, to darken the bg for better contrast) */}
           {/* <div className="absolute inset-0 bg-black/40 -z-10" /> */}
 
           {/* Foreground Content */}
-          <div className="animate-fadeInOut relative z-10 flex flex-col items-center">
-            <SplitText
-              text="Welcome to TREKWISER"
-              className="text-4xl font-semibold mb-14 font-logo text-white text-center"
-              delay={100}
-              duration={0.9}
-              ease="power3.out"
-              splitType="chars"
-              from={{ opacity: 0, y: 40 }}
-              to={{ opacity: 1, y: 0 }}
-              threshold={0.1}
-              rootMargin="-100px"
-              textAlign="center"
-            />
 
-            <div className="w-[300px]">
-              <LoginForm />
-            </div>
+          <SplitText
+            text="Welcome to TREKWISER"
+            className="text-4xl font-semibold mt-20 font-logo text-zinc-700 text-center"
+            delay={80}
+            duration={0.2}
+            ease="power3.out"
+            splitType="chars"
+            from={{ opacity: 0, y: 40 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0.4}
+            rootMargin="-10px"
+            textAlign="center"
+          />
+
+          <div className="w-[300px]">
+            <LoginForm />
           </div>
         </div>
       )}

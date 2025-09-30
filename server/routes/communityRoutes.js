@@ -1,8 +1,10 @@
 import express from "express";
 import {
+  addLike,
   createPost,
   getAllPosts,
   getUserPosts,
+  removeLike,
 } from "../controllers/communityControllers.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { uploadPostImage } from "../middleware/uploadCloudinary.js";
@@ -12,12 +14,14 @@ import { addpost } from "../controllers/communityControllers.js";
 const router = express.Router();
 
 // ✅ Public
-router.get("/", getAllPosts);
+router.get("/", authMiddleware, getAllPosts);
 
 // ✅ Protected
 router.post("/", authMiddleware, createPost);
 router.get("/my-posts", authMiddleware, getUserPosts);
 router.post("/posts", authMiddleware, addpost);
+router.post("/like/:id", authMiddleware, addLike);
+router.post("/unlike/:id", authMiddleware, removeLike);
 
 router.post(
   "/upload-post",

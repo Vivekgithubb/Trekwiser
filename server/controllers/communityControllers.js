@@ -23,7 +23,13 @@ export const getAllPosts = async (req, res) => {
     const posts = await CommunityPost.find()
       .populate("user", "username avatar")
       .sort({ createdAt: -1 });
-    res.json(posts);
+    const userId = req.user?._id;
+    console.log(userId);
+    const result = posts.map((post) => ({
+      ...post.toObject(),
+      likedByUser: req.user?._id ? post.likes.includes(req.user?._id) : false,
+    }));
+    res.json(result);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -58,5 +64,46 @@ export const addpost = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ status: "error", message: "Something went wrong" });
+  }
+};
+
+export const addLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
+
+    const newLiked = await CommunityPost.findById(id);
+    if (!newLiked) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    if (!newLiked.likes.includes(userId)) {
+      newLiked.likes.push(userId);
+      await newLiked.save();
+    }
+    res.json({ liked: true, likesCount: newLiked.likes.length });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+export const removeLike = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user._id;
+
+    const newLiked = await CommunityPost.findById(id);
+    if (!newLiked) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    newLiked.likes = newLiked.likes.filter(
+      (id) => id.toString() !== userId.toString()
+    );
+    await newLiked.save();
+    res.json({ liked: false, likesCount: newLiked.likes.length });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
   }
 };

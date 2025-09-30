@@ -205,7 +205,7 @@ const AddPost = ({ user }) => {
 
                 <div className="flex items-center justify-between mt-2">
                   <span className="font-semibold">
-                    {user?.name || "User Name"}
+                    {user?.username || "User Name"}
                   </span>
                   <span className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full">
                     {difficulty}
