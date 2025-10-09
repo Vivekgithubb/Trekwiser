@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import { ProtectedRute } from "./components/protectedRoute";
 import ViewPosts from "./pages/ViewPosts";
+import { Maps } from "./pages/Maps";
 
 function App() {
   const queryClient = new QueryClient({
@@ -60,6 +61,7 @@ function App() {
               <Route path="/treks" element={<TreksMain />} />
               {/* <Route path="/treks/:id" element={<TrekIndiviual />} /> */}
               <Route path="/treks/:id" element={<TrekIndiviual />} />
+              <Route path="/treks/:id/maps" element={<Maps />} />
               <Route path="community" element={<Community />} />
               <Route path="gallery" element={<GalleryPage />} />
             </Route>

@@ -22,6 +22,7 @@ router.get("/my-posts", authMiddleware, getUserPosts);
 router.post("/posts", authMiddleware, addpost);
 router.post("/like/:id", authMiddleware, addLike);
 router.post("/unlike/:id", authMiddleware, removeLike);
+router.get("/getUserPosts", authMiddleware, getUserPosts);
 
 router.post(
   "/upload-post",

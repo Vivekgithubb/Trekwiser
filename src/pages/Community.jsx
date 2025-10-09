@@ -2,7 +2,7 @@ import TrekDetailCard from "@/components/TrekDetailCard";
 import { usePosts } from "@/hooks/fetchPostHook";
 
 export default function Community() {
-  const { posts, isLoading } = usePosts();
+  const { posts } = usePosts();
   console.log(posts);
   return (
     <div>

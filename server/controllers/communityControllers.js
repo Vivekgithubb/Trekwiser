@@ -38,11 +38,11 @@ export const getAllPosts = async (req, res) => {
 // ✅ Get logged-in user's posts
 export const getUserPosts = async (req, res) => {
   try {
-    const posts = await CommunityPost.find({ user: req.user.id }).populate(
-      "trek",
-      "name"
+    const posts = await CommunityPost.find({ user: req.user._id }).populate(
+      "user"
     );
-    res.json(posts);
+    if (!posts) return res.json({ error: "You didnt upload any posts" });
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
