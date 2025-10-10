@@ -75,9 +75,9 @@ export const loginUser = async (req, res) => {
     });
     res.cookie("accessToken", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      path: "/",
+      secure: true,
+      sameSite: "none",
+      // path: "/",
     });
     res.json({ message: "Login successful", token });
   } catch (err) {
@@ -88,9 +88,9 @@ export const loginUser = async (req, res) => {
 export const logout = async (req, res) => {
   res.clearCookie("accessToken", {
     httpOnly: true,
-    secure: false, // set true in production with HTTPS
-    sameSite: "lax",
-    path: "/",
+    secure: true, // set true in production with HTTPS
+    sameSite: "none",
+    // path: "/",
   });
   res.json("Logged out succesfully");
 };

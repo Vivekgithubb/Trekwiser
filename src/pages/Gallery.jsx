@@ -23,9 +23,7 @@ export default function GalleryPage() {
   
   return (
     <div className="h-screen bg-white mt-16 overflow-hidden">
-      <h1 className="text-3xl font-bold text-center mb-3 font-logo">
-        Trek Gallery
-      </h1>
+      <h1 className="text-3xl font-bold text-center mb-3 font-logo">Gallery</h1>
 
       <section
         style={{
@@ -46,7 +44,7 @@ export default function GalleryPage() {
           <div
             className="
           grid 
-          gap-4 
+          gap-1 
           grid-cols-2
           sm:grid-cols-3 
           md:grid-cols-4 
@@ -59,8 +57,8 @@ export default function GalleryPage() {
                 key={index}
                 className={`
               relative overflow-hidden rounded-lg bg-white shadow-md
-              ${index % 5 === 0 ? "row-span-2 col-span-2" : ""}
-              ${index % 7 === 0 ? "col-span-2" : ""}
+              ${index % 3 === 0 ? "row-span-2 col-span-2" : ""}
+              ${index % 1 === 0 ? "col-span-3" : ""}
             `}
               >
                 <img

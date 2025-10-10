@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+// import { Button } from "@/components/ui/button";
+// import { input } from "@/components/ui/input";
+// import { label } from "@/components/ui/label";
 import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { useLogin } from "@/hooks/LoginHook";
@@ -47,10 +47,10 @@ export function LoginForm({ className, ...props }) {
       <div className="grid gap-6 font-light">
         {/* Email */}
         <div className="grid gap-1">
-          <Label htmlFor="email" className="text-[14px]">
+          <label htmlFor="email" className="text-[14px]">
             Email
-          </Label>
-          <Input
+          </label>
+          <input
             id="email"
             type="email"
             placeholder="m@example.com"
@@ -65,11 +65,11 @@ export function LoginForm({ className, ...props }) {
         {/* Password */}
         <div className="grid gap-1">
           <div className="flex items-center">
-            <Label htmlFor="password" className="text-[14px]">
+            <label htmlFor="password" className="text-[14px]">
               Password
-            </Label>
+            </label>
           </div>
-          <Input
+          <input
             id="password"
             type="password"
             className="text-[12px] border-1 border-black bg-transparent backdrop-blur-[2px]"
@@ -82,12 +82,12 @@ export function LoginForm({ className, ...props }) {
           )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <button type="submit" className="w-full" disabled={isLoading}>
           {isLoading ? "Logging in..." : "Login"}
-        </Button>
+        </button>
       </div>
 
-      <div className="text-center text-sm text-white italic">
+      <div className="text-center text-sm text-black italic">
         Don&apos;t have an account?{" "}
         <Link to="/signup" className="underline underline-offset-4">
           Sign up

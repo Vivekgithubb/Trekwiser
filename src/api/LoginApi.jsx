@@ -1,12 +1,11 @@
-import axios from "axios";
+// import axios from "axios";
+import apiClient from "./apiClient";
 
 // Your API function
 export const LoginApi = async (userData) => {
   // userData = { fullName, email, password, ... }
-  const res = await axios.post(
-    `${import.meta.env.VITE_API_URL}/api/users/login`,
-    userData,
-    { withCredentials: true }
-  );
+  const res = await apiClient.post("/api/users/login", userData, {
+    withCredentials: true,
+  });
   return res.data;
 };

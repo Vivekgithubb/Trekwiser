@@ -3,6 +3,7 @@ import AccordianTrek from "@/components/ui/AccordianTrek";
 import axios from "axios";
 import { BookOpenCheck, Calendar1, LandPlot, TimerReset } from "lucide-react";
 import { Frown } from "lucide-react";
+import Modal from "@/components/Modal";
 import {
   Mountain,
   Trees,
@@ -14,9 +15,14 @@ import {
   CloudFog,
 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { Maps } from "./Maps";
+import apiClient from "@/api/apiClient";
 
 export default function TrekIndiviual() {
+  const [userLocation, setUserLocation] = useState(null);
+  const [error, setError] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
   const difficultyColors = {
     Easy: "bg-green-600/20",
     Moderate: "bg-blue-600/20",
@@ -35,9 +41,7 @@ export default function TrekIndiviual() {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        const res1 = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/treks/${id}`
-        );
+        const res1 = await apiClient.get(`api/treks/${id}`);
         const trekData = res1.data.data.treks;
         setTrek(trekData);
 
@@ -64,9 +68,38 @@ export default function TrekIndiviual() {
 
     fetchWeather();
   }, [id, KEY]);
+
   console.log(trek);
   let trekLength = Number(trek.length?.split(" ").splice(0, 1).join(" "));
   trekLength = trekLength / 2;
+  function handleUserLocation() {
+    console.log("clicked");
+    if (!navigator.geolocation) {
+      setError("GeoLocation is not Available in the browser");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (err) => {
+        setError(err.message);
+      },
+      {
+        enableHighAccuracy: true, // for better precision
+        timeout: 10000, // max wait 10 seconds
+        maximumAge: 0, // don’t use cached location
+      }
+    );
+  }
+  useEffect(() => {
+    if (modalOpen) {
+      handleUserLocation();
+    }
+  }, [modalOpen]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 relative">
@@ -83,7 +116,26 @@ export default function TrekIndiviual() {
             <div>
               <h1 className="text-[20px] font-bold font-logo">{trek.name}</h1>
               <p className="text-gray-600">Location: {trek.location}</p>
+              <Modal>
+                <Modal.Open
+                  open={`map-${trek._id}`}
+                  onClick={() => {
+                    setModalOpen(true); // open the modal
+                    handleUserLocation(); // ask for location immediately
+                  }}
+                >
+                  <button className="text-red-600 text-xs w-[80px] text-left">
+                    Open Map
+                  </button>
+                </Modal.Open>
+                <Modal.Window name={`map-${trek._id}`} type="map">
+                  <div className="w-full h-[80vh] ">
+                    <Maps trek={trek} userLocation={userLocation} />
+                  </div>
+                </Modal.Window>
+              </Modal>
             </div>
+            {/* <Link to={`/treks/${trek._id}/maps`}>Open map</Link> */}
 
             <span
               className={`text-[10px] px-3 py-1 rounded-full ${

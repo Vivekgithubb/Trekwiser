@@ -1,6 +1,7 @@
+import apiClient from "@/api/apiClient";
 import SearchBar from "@/components/SearchBar";
 import TreksCard from "@/components/TreksCard";
-import axios from "axios";
+
 import { useEffect, useState } from "react";
 
 export default function TreksMain() {
@@ -11,9 +12,7 @@ export default function TreksMain() {
   useEffect(() => {
     const fetchTreks = async () => {
       try {
-        const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/api/treks`
-        );
+        const res = await apiClient.get("/api/treks");
         setTreks(res.data);
         setfilteredTreks(res.data);
       } catch (err) {
