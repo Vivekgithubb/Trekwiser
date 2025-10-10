@@ -59,6 +59,17 @@ const userSchema = new Schema(
     },
     passwordChangedAt: Date,
     refreshToken: { type: String },
+
+    points: {
+      type: Number,
+      default: 0,
+    },
+
+    cleanupImages: {
+      beforeImage: { type: String },
+      afterImage: { type: String },
+      verified: { type: Boolean, default: false },
+    },
   },
   { timestamps: true }
 );

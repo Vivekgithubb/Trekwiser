@@ -20,5 +20,14 @@ const postImageStorage = new CloudinaryStorage({
   },
 });
 
+// Cleanup images
+const cleanupStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "cleanup-images",
+    allowed_formats: ["jpg", "png", "jpeg"],
+  },
+});
+
 export const uploadProfilePic = multer({ storage: profilePicStorage });
 export const uploadPostImage = multer({ storage: postImageStorage });

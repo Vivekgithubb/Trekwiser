@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import userRoutes from "./routes/userRoutes.js";
 import trekRoutes from "./routes/trekRoutes.js";
 import communityRoutes from "./routes/communityRoutes.js";
+import cleanupRoutes from "./routes/cleanupRoutes.js";
 
 // dotenv.config();
 dotenv.config({
@@ -18,6 +19,7 @@ dotenv.config({
 
 const app = express();
 app.use(cookieParser());
+
 // Core Middleware
 app.use(
   cors({
@@ -51,6 +53,8 @@ app.use("/api/community", communityRoutes);
 app.get("/api/test", (req, res) => {
   res.send("Backend is working!");
 });
+app.use("/api/cleanup", cleanupRoutes);
+
 // Start the server
 app.listen(3000, "0.0.0.0", () => {
   console.log("Backend is running on port 3000");
