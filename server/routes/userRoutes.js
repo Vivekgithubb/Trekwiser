@@ -37,6 +37,7 @@ router.get("/me", authMiddleware, async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
 // ✅ Protected
 router.get("/", getUsers);
 router.post("/changeDesc", changeDesc);
@@ -70,8 +71,10 @@ router.post(
     }
   }
 );
-// console.log(req.file); // for single upload
-// console.log(req.files); // for multiple uploads
+
+
+console.log(req.file); // for single upload
+console.log(req.files); // for multiple uploads
 
 router.get("/cloudinary-signature", authMiddleware, (req, res) => {
   const timestamp = Math.floor(Date.now() / 1000);
@@ -87,6 +90,7 @@ router.get("/cloudinary-signature", authMiddleware, (req, res) => {
     api_key: process.env.CLOUDINARY_API_KEY,
   });
 });
+
 router.get("/cloudinary-signature-post", authMiddleware, (req, res) => {
   const timestamp = Math.floor(Date.now() / 1000);
   const signature = cloudinary.utils.api_sign_request(

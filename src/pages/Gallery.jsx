@@ -20,6 +20,7 @@ export default function GalleryPage() {
     fetchTreks();
   }, []);
   console.log(Treks);
+  
   return (
     <div className="h-screen bg-white mt-16 overflow-hidden">
       <h1 className="text-3xl font-bold text-center mb-3 font-logo">Gallery</h1>
