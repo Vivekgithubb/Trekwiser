@@ -1,13 +1,12 @@
 import { execFile } from "child_process";
 import path from "path";
 
-export const verifyCleanupWithAI = async (beforeImagePath, afterImagePath) => {
+export const verifyCleanupWithAI = (beforeUrl, afterUrl) => {
   return new Promise((resolve, reject) => {
-    const scriptPath = path.join(process.cwd(), "server", "utils", "cleanup_verify.py");
-
-    execFile("python", [scriptPath, beforeImagePath, afterImagePath], (error, stdout, stderr) => {
-      if (error) {
-        console.error("AI verification error:", stderr || error);
+    const script = path.join(process.cwd(), "server", "utils", "cleanup_verify.py");
+    execFile("python", [script, beforeUrl, afterUrl], (err, stdout, stderr) => {
+      if (err) {
+        console.error("AI error:", stderr || err);
         return resolve({
           same_location: false,
           trash_before: 0,
@@ -16,13 +15,11 @@ export const verifyCleanupWithAI = async (beforeImagePath, afterImagePath) => {
           verified: false
         });
       }
-
       try {
         const result = JSON.parse(stdout);
         resolve(result);
-      } catch (err) {
-        console.error("Parse error:", err);
-        reject(err);
+      } catch (parseErr) {
+        reject(parseErr);
       }
     });
   });

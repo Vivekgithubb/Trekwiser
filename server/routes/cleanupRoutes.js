@@ -1,15 +1,13 @@
 import express from "express";
-import { handleCleanupUpload } from "../controllers/cleanupController.js";
-import { uploadCleanupImages } from "../middleware/multer.js";
+import { getUploadSignature, handleCleanupUpload } from "../controllers/cleanupController.js";
 import { verifyJWT } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
-router.post(
-  "/upload",
-  verifyJWT,
-  uploadCleanupImages.fields([{ name: "before" }, { name: "after" }]),
-  handleCleanupUpload
-);
+// frontend obtains this signature to upload to Cloudinary directly
+router.get("/signature", verifyJWT, getUploadSignature);
+
+// frontend posts the Cloudinary URLs (no files)
+router.post("/upload", verifyJWT, handleCleanupUpload);
 
 export default router;
