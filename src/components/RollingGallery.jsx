@@ -33,7 +33,7 @@ const RollingGallery = ({
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const cylinderWidth = isScreenSizeSm ? 1100 : 1800;
+  const cylinderWidth = isScreenSizeSm ? 1200 : 1800;
   const faceCount = images.length;
   const faceWidth = (cylinderWidth / faceCount) * 1.5;
   const radius = cylinderWidth / (2 * Math.PI);
@@ -51,7 +51,7 @@ const RollingGallery = ({
     controls.start({
       rotateY: [startAngle, startAngle - 360],
       transition: {
-        duration: 20,
+        duration: 10,
         ease: "linear",
         repeat: Infinity,
       },
@@ -102,7 +102,7 @@ const RollingGallery = ({
 
   return (
     <div className="relative h-[180px] w-full overflow-hidden">
-      <div
+      {/* <div
         className="absolute top-0 left-0 h-full w-[48px] z-10"
         // style={{
         //   background:
@@ -115,7 +115,7 @@ const RollingGallery = ({
         //   background:
         //     "linear-gradient(to right, rgba(0,0,0,0) 50%, #060010 100%)",
         // }}
-      />
+      /> */}
       <div className="flex h-full items-center justify-center [perspective:1000px] [transform-style:preserve-3d]">
         <motion.div
           drag="x"
@@ -132,12 +132,12 @@ const RollingGallery = ({
             width: cylinderWidth,
             transformStyle: "preserve-3d",
           }}
-          className="flex min-h-[260px] cursor-grab items-center justify-center [transform-style:preserve-3d]"
+          className="flex min-h-[260px]  cursor-grab items-center justify-center [transform-style:preserve-3d]"
         >
           {images.map((url, i) => (
             <div
               key={i}
-              className="group absolute flex h-fit items-center justify-center p-[8%] [backface-visibility:hidden] md:p-[6%]"
+              className="group bg-white absolute flex h-fit items-center justify-center p-[9%] [backface-visibility:hidden] md:p-[6%]"
               style={{
                 width: `${faceWidth}px`,
                 transform: `rotateY(${

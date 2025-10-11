@@ -80,8 +80,8 @@ export default function Home() {
                 <CaraselPopular items={popularTreks} />
               </div>
             </div>
-            <div className="flex flex-col bg-white shadow-blue-300 shadow-md/30">
-              <h1 className="font-logo ml-3 text-zinc-700 ">
+            <div className="flex flex-col bg-white">
+              <h1 className="font-logo mt-4 ml-3 text-zinc-700 ">
                 Some of the Most Famous Places
               </h1>
               <RollingGallery autoplay={true} pauseOnHover={true} />
