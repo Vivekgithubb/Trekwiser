@@ -13,6 +13,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
 import { ProtectedRute } from "./components/protectedRoute";
 import ViewPosts from "./pages/ViewPosts";
+import CleanUp from "./pages/CleanUp";
 import { Maps } from "./pages/Maps";
 
 function App() {
@@ -55,6 +56,14 @@ function App() {
                 element={
                   <ProtectedRute>
                     <ViewPosts />
+                  </ProtectedRute>
+                }
+              />
+              <Route
+                path="/profile/cleanup"
+                element={
+                  <ProtectedRute>
+                    <CleanUp />
                   </ProtectedRute>
                 }
               />

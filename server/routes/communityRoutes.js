@@ -70,7 +70,7 @@ router.post("/posts/:id/like", authMiddleware, async (req, res) => {
     const post = await CommunityPost.findByIdAndUpdate(
       id,
       { $inc: { likes: 1 } }, // increment likes
-      { new: true }           // return updated document
+      { new: true } // return updated document
     );
 
     if (!post) {
@@ -78,15 +78,10 @@ router.post("/posts/:id/like", authMiddleware, async (req, res) => {
     }
 
     res.json({ message: "Like added", likes: post.likes });
-  } 
-  catch (err) {
+  } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to like post" });
   }
 });
-
-console.log(req.file);   // for single upload
-console.log(req.files);  // for multiple uploads
-
 
 export default router;

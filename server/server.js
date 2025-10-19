@@ -28,7 +28,7 @@ app.use(
       "http://localhost:5174", // for laptop
       "http://127.0.0.1:5173",
       "http://192.168.137.1:5173", // just in case
-      "http://192.168.0.104:5173", // your LAN IP for phone
+      "http://192.168.0.100:5173", // your LAN IP for phone
       "http://192.168.0.106:5173", // your LAN IP for phone
       "http://10.206.209.82:5173", // your LAN IP for phone
       "https://superlaryngeal-minerva-pansophical.ngrok-free.dev",

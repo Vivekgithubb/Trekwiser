@@ -72,10 +72,6 @@ router.post(
   }
 );
 
-
-console.log(req.file); // for single upload
-console.log(req.files); // for multiple uploads
-
 router.get("/cloudinary-signature", authMiddleware, (req, res) => {
   const timestamp = Math.floor(Date.now() / 1000);
   const signature = cloudinary.utils.api_sign_request(

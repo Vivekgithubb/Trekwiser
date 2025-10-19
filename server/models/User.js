@@ -65,10 +65,10 @@ const userSchema = new Schema(
       default: 0,
     },
 
-    cleanupImages: {
-      beforeImage: { type: String },
-      afterImage: { type: String },
-      verified: { type: Boolean, default: false },
+    cleanupTemp: {
+      beforeImage: { url: String, public_id: String },
+      afterImage: { url: String, public_id: String },
+      timestamp: { type: Date, default: Date.now },
     },
   },
   { timestamps: true }

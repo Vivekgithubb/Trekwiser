@@ -40,9 +40,14 @@ export default function Navbar() {
       textColor: "#fff",
       links: [
         {
-          label: "Profile",
+          label: "View Profile",
           ariaLabel: "View user profile",
           to: "/profile/",
+        },
+        {
+          label: "Check Clean-Up",
+          ariaLabel: "Take the challenge",
+          to: "/profile/cleanup",
         },
       ],
     },

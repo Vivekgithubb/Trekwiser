@@ -88,7 +88,7 @@ export const loginUser = async (req, res) => {
 export const logout = async (req, res) => {
   res.clearCookie("accessToken", {
     httpOnly: true,
-    secure: true, // set true in production with HTTPS
+    secure: false, // set true in production with HTTPS
     sameSite: "none",
     // path: "/",
   });

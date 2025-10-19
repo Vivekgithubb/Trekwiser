@@ -31,3 +31,4 @@ const cleanupStorage = new CloudinaryStorage({
 
 export const uploadProfilePic = multer({ storage: profilePicStorage });
 export const uploadPostImage = multer({ storage: postImageStorage });
+export const uploadCleanupImages = multer({ storage: cleanupStorage });

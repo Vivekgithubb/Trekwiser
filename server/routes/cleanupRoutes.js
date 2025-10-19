@@ -1,13 +1,13 @@
 import express from "express";
 import { handleCleanupUpload } from "../controllers/cleanupController.js";
-import { uploadCleanupImages } from "../middleware/multer.js";
-import { verifyJWT } from "../middleware/authMiddleware.js";
+import { uploadCleanupImages } from "../middleware/uploadCloudinary.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post(
   "/upload",
-  verifyJWT,
+  authMiddleware,
   uploadCleanupImages.fields([{ name: "before" }, { name: "after" }]),
   handleCleanupUpload
 );
